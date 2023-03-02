@@ -15,7 +15,10 @@
           </div>
         <div class="">
           <h3>My Posts</h3>
-          <ul v-if="posts"><li v-for="post in posts" :key="post.id"><NuxtLink :to="`/posts/${post.id}`">{{post.title}}</NuxtLink></li></ul>
+          <ul v-if="posts"><li v-for="post in posts" :key="post.id">
+            <NuxtLink :to="`/posts/${post.id}`">{{post.title}} </NuxtLink> &middot;
+            <NuxtLink :to="`/posts/${post.id}/edit`"> Edit</NuxtLink>
+          </li></ul>
         </div>
         </div>
       </div>
@@ -30,10 +33,14 @@ import {useCookie, useRuntimeConfig, useState} from "nuxt/app";
 import axios from "axios";
 import {onMounted, ref} from "vue";
 
+
 export default {
   name: "index",
   components: {BaseLayout},
   setup(){
+    definePageMeta({
+      middleware: ['auth']
+    })
     const title = useState('title');
     const user = ref(null);
     const posts = ref([])

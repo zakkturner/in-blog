@@ -5,27 +5,30 @@
       <li class="nav-item">
         <NuxtLink to="/" class="nav-link">Home</NuxtLink>
       </li>
-      <li class="nav-item">
-        <NuxtLink to="/posts/create" class="nav-link">Create</NuxtLink>
+      <li class="nav-item" v-if="isLoggedIn">
+        <NuxtLink to="/posts/create" class="nav-link" >Create</NuxtLink>
       </li>
-      <li class="nav-item">
-        <NuxtLink to="/dashboard" class="nav-link">Dashboard</NuxtLink>
+      <li class="nav-item" v-if="isLoggedIn">
+        <NuxtLink to="/dashboard" class="nav-link" >Dashboard</NuxtLink>
       </li>
       <li class="nav-item">
         <NuxtLink to="/about" class="nav-link">About</NuxtLink>
 
       </li>
-      <li class="nav-item">
+      <li class="nav-item" v-if="!isLoggedIn">
         <NuxtLink to="/auth/register" class="nav-link">Register</NuxtLink>
       </li>
-      <li class="nav-item">
-        <NuxtLink to="/auth/login" class="nav-link">Login</NuxtLink>
+      <li class="nav-item" v-if="!isLoggedIn">
+        <NuxtLink to="/auth/login" class="nav-link" >Login</NuxtLink>
       </li>
       <li class="nav-item">
         <NuxtLink to="/auth/login" class="nav-link">Contact</NuxtLink>
       </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link" @click.prevent="logout">Logout</a>
+      <li class="nav-item" v-if="isLoggedIn">
+        <a href="#" class="nav-link" @click.prevent="logout" >Logout</a>
+      </li>
+      <li class="nav-item" v-if="isLoggedIn">
+        <span>Hello, <NuxtLink to="/dashboard">{{ getUser()?.name }}</NuxtLink></span>
       </li>
     </ul>
   </nav>
@@ -34,10 +37,12 @@
 <script>
 import axios from "axios";
 import {useCookie, useRuntimeConfig} from "nuxt/app";
-
+import {useAuth} from "../../../composables/useAuth";
+const { removeUser, isLoggedIn, getUser } = useAuth();
 export default {
   name: "TheHeader",
   setup(){
+
     async function logout(){
       try{
 
@@ -56,12 +61,12 @@ export default {
         console.log(e.response.data);
       }
       finally {
-        console.log('logged out')
+        removeUser()
         window.location.pathname = '/'
       }
     }
 
-    return {logout}
+    return {logout, isLoggedIn, getUser}
   }
 }
 </script>
@@ -76,10 +81,12 @@ export default {
   width: 60%;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+
 }
 .nav-item{
   list-style-type: none;
+  text-align: center;
+  margin-right: 20px;
 }
 .nav-link{
   text-decoration: none;

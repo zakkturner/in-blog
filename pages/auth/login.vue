@@ -15,6 +15,11 @@
 </template>
 
 <script setup >
+import {useAuth} from "../../composables/useAuth";
+
+definePageMeta({
+  middleware: ['guest']
+})
 
 import BaseLayout from "../../src/components/layouts/BaseLayout";
 import {ref} from "vue";
@@ -24,6 +29,8 @@ const email = ref('');
 const password = ref('');
 const isLoading = ref(false);
 let errors = ref([]);
+
+
 
 function csrf(){
   return  axios.get(`${useRuntimeConfig().public.BASE_URL}/sanctum/csrf-cookie`, {withCredentials: true});
@@ -44,7 +51,15 @@ try{
       Accept: 'application/json',
       'X-XSRF-TOKEN': useCookie('XSRF-TOKEN').value,
     }})
-  console.log('logged in')
+  const user = await axios.get(`${useRuntimeConfig().public.BASE_URL}/api/user`, {
+    withCredentials: true,
+    headers: {
+      Accept: 'application/json',
+      'X-XSRF-TOKEN': useCookie('XSRF-TOKEN').value,
+    }});
+  console.log("User: ", user)
+  const {setUser} = useAuth();
+  setUser(user.data.name);
   window.location.pathname = '/dashboard/'
   isLoading.value = false
 }catch(e){

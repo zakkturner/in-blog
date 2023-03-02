@@ -19,6 +19,11 @@
 </template>
 
 <script>
+import {useAuth} from "../../composables/useAuth";
+
+definePageMeta({
+  middleware: ['guest']
+})
 import BaseLayout from "../../src/components/layouts/BaseLayout";
 import axios from "axios";
 import {useCookie, useRuntimeConfig} from "nuxt/app";
@@ -40,9 +45,8 @@ export default {
 
       try{
         isLoading.value = true
-        console.log(email.value, password.value)
-        console.log(password.value, confirm_password.value)
-        await axios.post(`${useRuntimeConfig().public.BASE_URL}/register`,{
+
+       await axios.post(`${useRuntimeConfig().public.BASE_URL}/register`,{
           name: name.value,
           email: email.value,
           password: password.value,
@@ -54,7 +58,15 @@ export default {
             Accept: 'application/json',
             'X-XSRF-TOKEN': useCookie('XSRF-TOKEN').value,
           }})
-        console.log(password.value, confirm_password.value)
+        const user = await axios.get(`${useRuntimeConfig().public.BASE_URL}/api/user`, {
+          withCredentials: true,
+          headers: {
+            Accept: 'application/json',
+            'X-XSRF-TOKEN': useCookie('XSRF-TOKEN').value,
+          }});
+        const {setUser} = useAuth();
+        setUser(user.data.name);
+
         window.location.pathname = '/dashboard/'
         isLoading.value = false
       }catch(e){

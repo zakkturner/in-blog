@@ -19,7 +19,7 @@
 import axios from "axios";
 import { onMounted,  ref } from "vue";
 import {useRoute, useRuntimeConfig} from "nuxt/app";
-import BaseLayout from "../../src/components/layouts/BaseLayout";
+import BaseLayout from "../../../src/components/layouts/BaseLayout";
 import {format} from 'date-fns';
 export default {
   name: "[post]",

@@ -6,7 +6,7 @@
       <div class="form-container">
         <div class="form-group">
           <label for="title">Title</label>
-          <input type="name" name="title" v-model="title">
+          <input type="text" name="title" v-model="title">
         </div>
         <div class="form-group">
         <label for="body">Body</label>
@@ -22,7 +22,9 @@
 </template>
 
 <script>
-
+definePageMeta({
+  middleware: ['auth']
+})
 import BaseLayout from "../../src/components/layouts/BaseLayout";
 import {ref} from "vue";
 import axios from "axios";
