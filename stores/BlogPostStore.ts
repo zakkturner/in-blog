@@ -51,7 +51,7 @@ export const useBlogStore = defineStore("blog", {
                 this.blogPosts = response.data;
 
             } catch (error) {
-                alert(error);
+                // alert(error);
                 console.log(error);
             }
         },

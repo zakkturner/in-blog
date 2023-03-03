@@ -27,11 +27,7 @@ export default {
     blogStore.fetchBlogPosts();
     const blogPosts = computed(()=>blogStore.getBlogPosts)
     console.log("Posts:", blogPosts.value)
-   //  const user = ref()
-   // onMounted( async ()=>{
-   //    const {data} = await useFetch('http://localhost:8000/api/user')
-   //   console.log(data)
-   //  })
+
     return {blogPosts, title}
   }
 }

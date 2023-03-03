@@ -84,7 +84,7 @@ export default {
           console.log(response)
           title.value = ''
           body.value = ''
-          alert('Updated Post')
+          console.log('Updated Post')
           router.push('/dashboard')
 
         })
@@ -92,7 +92,7 @@ export default {
 
         errors.value = error.response.data.message
         if(error.response.status === 403){
-            alert(error.response.data.message);
+            console.log(error.response.data.message);
 
             return
         }
@@ -120,14 +120,14 @@ export default {
           console.log(response)
           title.value = ''
           body.value = ''
-          alert('Deleted Post')
+          console.log('Deleted Post')
           router.push('/dashboard')
 
         })
       }catch(error){
         errors.value = error.response.data.message
         if(error.response.status === 403){
-          alert(error.response.data.message);
+          console.log(error.response.data.message);
 
           return
         }
