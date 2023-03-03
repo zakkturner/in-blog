@@ -45,7 +45,7 @@ export default {
 
       try{
         isLoading.value = true
-
+console.log(`${useRuntimeConfig().public.BASE_URL}/register`);
        await axios.post(`${useRuntimeConfig().public.BASE_URL}/register`,{
           name: name.value,
           email: email.value,
